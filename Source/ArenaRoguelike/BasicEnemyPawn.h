@@ -26,6 +26,15 @@ public:
 	UPROPERTY(EditAnywhere)
 	float Speed = 100;
 
+	UPROPERTY(EditAnywhere)
+	float Damage = 25;
+
+	UPROPERTY(EditAnywhere)
+	float DamageRate = 0.5f;
+
+	UPROPERTY(VisibleAnywhere)
+	float DamageCooldownTimer = 0;
+
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 

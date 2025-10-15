@@ -2,6 +2,7 @@
 
 
 #include "BasicEnemyPawn.h"
+#include "HealthComponent.h"
 
 void ABasicEnemyPawn::BeginPlay()
 {
@@ -15,6 +16,8 @@ void ABasicEnemyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	DamageCooldownTimer -= DeltaTime;
+
 	if (PlayerPawn) {
 		LookAt(PlayerPawn->GetActorLocation());
 		FVector DeltaLocation = PivotComponent->GetForwardVector();
@@ -25,6 +28,14 @@ void ABasicEnemyPawn::Tick(float DeltaTime)
 
 void ABasicEnemyPawn::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Display, TEXT("Projectile hit: %s"), *OtherActor->GetActorNameOrLabel());
+	if (DamageCooldownTimer > 0) {
+		return;
+	}
 
+	DamageCooldownTimer = DamageRate;
+
+	if (UHealthComponent* HealthComponent = OtherActor->GetComponentByClass<UHealthComponent>()) {
+		HealthComponent->Damage(Damage);
+		UE_LOG(LogTemp, Display, TEXT("Actor damaged: %s"), *OtherActor->GetActorNameOrLabel());
+	}
 }
