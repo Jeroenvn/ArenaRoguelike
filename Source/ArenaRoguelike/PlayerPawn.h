@@ -79,4 +79,7 @@ public:
 	void MoveInput(const FInputActionValue& Value);
 
 	void FireInput(const FInputActionValue& Value);
+
+	void HandleDestruction();
+
 };

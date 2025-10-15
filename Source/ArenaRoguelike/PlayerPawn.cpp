@@ -126,3 +126,9 @@ void APlayerPawn::FireInput(const FInputActionValue& Value)
 	}
 
 }
+
+void APlayerPawn::HandleDestruction()
+{
+	UE_LOG(LogTemp, Display, TEXT("Player Died"));
+
+}

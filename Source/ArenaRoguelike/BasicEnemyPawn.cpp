@@ -36,6 +36,13 @@ void ABasicEnemyPawn::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActo
 
 	if (UHealthComponent* HealthComponent = OtherActor->GetComponentByClass<UHealthComponent>()) {
 		HealthComponent->Damage(Damage);
-		UE_LOG(LogTemp, Display, TEXT("Actor damaged: %s"), *OtherActor->GetActorNameOrLabel());
 	}
+
+}
+
+void ABasicEnemyPawn::HandleDestruction()
+{
+	UE_LOG(LogTemp, Display, TEXT("Enemy Died"));
+	Destroy();
+
 }
