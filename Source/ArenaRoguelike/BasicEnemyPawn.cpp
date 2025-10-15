@@ -6,6 +6,9 @@
 void ABasicEnemyPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CapsuleComponent->OnComponentHit.AddDynamic(this, &ABasicEnemyPawn::OnHit);
+
 }
 
 void ABasicEnemyPawn::Tick(float DeltaTime)
@@ -16,6 +19,12 @@ void ABasicEnemyPawn::Tick(float DeltaTime)
 		LookAt(PlayerPawn->GetActorLocation());
 		FVector DeltaLocation = PivotComponent->GetForwardVector();
 		DeltaLocation = DeltaLocation * DeltaTime * Speed;
-		AddActorWorldOffset(DeltaLocation);
+		AddActorWorldOffset(DeltaLocation, true);
 	}
+}
+
+void ABasicEnemyPawn::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Display, TEXT("Projectile hit: %s"), *OtherActor->GetActorNameOrLabel());
+
 }
