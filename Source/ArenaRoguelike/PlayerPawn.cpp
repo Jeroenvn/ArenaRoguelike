@@ -131,4 +131,7 @@ void APlayerPawn::HandleDestruction()
 {
 	UE_LOG(LogTemp, Display, TEXT("Player Died"));
 
+	FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(GetWorld());
+	UGameplayStatics::OpenLevel(GetWorld(), *CurrentLevelName);
+
 }
