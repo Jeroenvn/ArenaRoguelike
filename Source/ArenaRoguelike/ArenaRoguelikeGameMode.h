@@ -37,6 +37,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	float TimeBetweenSpawns = 2.5f;
 
+	UPROPERTY(EditAnywhere)
+	float DifficultyIncreasePerMinute = 3.0f;
+
+	UPROPERTY(VisibleAnywhere)
+	float Difficulty = 1.0f;
+
 	void InitializePortals();
 
 	void RandomizePortals();
@@ -44,5 +50,7 @@ public:
 	void SpawnEnemyAtRandomPortal();
 
 	void SpawnEnemy(FVector location);
+
+	void IncreaseDifficultyPerSecond();
 
 };
