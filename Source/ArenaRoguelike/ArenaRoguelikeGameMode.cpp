@@ -15,7 +15,7 @@ void AArenaRoguelikeGameMode::BeginPlay()
 
 	InitializePortals();
 
-	GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal, 1.0f, true);
+	GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal, TimeBetweenSpawns, true);
 
 }
 
@@ -37,7 +37,6 @@ void AArenaRoguelikeGameMode::InitializePortals()
 void AArenaRoguelikeGameMode::RandomizePortals()
 {
 	RandomizedPortals = Portals;
-	UE_LOG(LogTemp, Display, TEXT("Randomizing Portals"));
 
 	for (int32 i = RandomizedPortals.Num() - 1; i > 0; --i)
 	{
@@ -61,5 +60,8 @@ void AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal()
 void AArenaRoguelikeGameMode::SpawnEnemy(FVector location)
 {
 	ABasicEnemyPawn* Enemy = GetWorld()->SpawnActor<ABasicEnemyPawn>(BasicEnemyPawn, location, FRotator(0.0f, 0.0f, 0.0f));
-	Enemy->PlayerPawn = PlayerPawn;
+	float Speed = 100;
+	float MaxHealth = 100;
+	float Damage = 25;
+	Enemy->InitializeMonster(PlayerPawn, Speed, MaxHealth, Damage);
 }

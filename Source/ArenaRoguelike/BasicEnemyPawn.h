@@ -30,7 +30,7 @@ public:
 	float Damage = 25;
 
 	UPROPERTY(EditAnywhere)
-	float DamageRate = 0.5f;
+	float DamageCooldownSeconds = 0.5f;
 
 	UPROPERTY(VisibleAnywhere)
 	float DamageCooldownTimer = 0;
@@ -39,5 +39,7 @@ public:
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	void HandleDestruction();
+
+	void InitializeMonster(APlayerPawn* InPlayerPawn, float InSpeed, int InMaxHealth, float InDamage);
 
 };

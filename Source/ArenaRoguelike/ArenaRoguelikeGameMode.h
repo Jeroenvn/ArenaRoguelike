@@ -28,13 +28,14 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ABasicEnemyPawn> BasicEnemyPawn;
 
-	UPROPERTY(VisibleAnywhere)
 	TArray<APortal*> Portals;
 
-	UPROPERTY(VisibleAnywhere)
 	TArray<APortal*> RandomizedPortals;
 
 	FTimerHandle SpawnTimerHandle;
+
+	UPROPERTY(EditAnywhere)
+	float TimeBetweenSpawns = 2.5f;
 
 	void InitializePortals();
 
