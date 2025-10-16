@@ -28,5 +28,16 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ABasicEnemyPawn> BasicEnemyPawn;
 
+	UPROPERTY(VisibleAnywhere)
+	TArray<APortal*> Portals;
+
+	UPROPERTY(VisibleAnywhere)
+	TArray<APortal*> RandomizedPortals;
+
+	void InitializePortals();
+
+	void RandomizePortals();
+
 	void SpawnEnemy(FVector location);
+
 };

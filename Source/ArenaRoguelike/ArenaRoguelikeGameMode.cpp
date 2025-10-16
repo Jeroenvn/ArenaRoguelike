@@ -13,16 +13,44 @@ void AArenaRoguelikeGameMode::BeginPlay()
 		PlayerPawn = Cast<APlayerPawn>(Player);
 	}
 
-	SpawnEnemy(FVector(300.0f, 300.0f, 60.0f));
+	InitializePortals();
 
-	TArray<AActor*> Portals;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APortal::StaticClass(), Portals);
-
-	for (AActor* PortalActor : Portals) {
-		if (APortal* Portal = Cast<APortal>(PortalActor)) {
-			FVector pos = Portal->GetSpawnPosition();
-			SpawnEnemy(pos);
+	for (int i = 0; i < 4; i++) {
+		if (RandomizedPortals.IsEmpty()) {
+			RandomizePortals();
 		}
+
+		APortal* Portal = RandomizedPortals.Pop();
+		FVector SpawnLocation = Portal->GetSpawnPosition();
+		SpawnEnemy(SpawnLocation);
+	}
+
+}
+
+void AArenaRoguelikeGameMode::InitializePortals()
+{
+	TArray<AActor*> PortalActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APortal::StaticClass(), PortalActors);
+
+	for (AActor* PortalActor : PortalActors) {
+		if (APortal* Portal = Cast<APortal>(PortalActor)) {
+			Portals.Add(Portal);
+		}
+	}
+
+	RandomizePortals();
+
+}
+
+void AArenaRoguelikeGameMode::RandomizePortals()
+{
+	RandomizedPortals = Portals;
+	UE_LOG(LogTemp, Display, TEXT("Randomizing Portals"));
+
+	for (int32 i = RandomizedPortals.Num() - 1; i > 0; --i)
+	{
+		int32 j = FMath::RandRange(0, i);
+		RandomizedPortals.Swap(i, j);
 	}
 
 }
