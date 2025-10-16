@@ -15,15 +15,7 @@ void AArenaRoguelikeGameMode::BeginPlay()
 
 	InitializePortals();
 
-	for (int i = 0; i < 4; i++) {
-		if (RandomizedPortals.IsEmpty()) {
-			RandomizePortals();
-		}
-
-		APortal* Portal = RandomizedPortals.Pop();
-		FVector SpawnLocation = Portal->GetSpawnPosition();
-		SpawnEnemy(SpawnLocation);
-	}
+	GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal, 1.0f, true);
 
 }
 
@@ -53,6 +45,17 @@ void AArenaRoguelikeGameMode::RandomizePortals()
 		RandomizedPortals.Swap(i, j);
 	}
 
+}
+
+void AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal()
+{
+	if (RandomizedPortals.IsEmpty()) {
+		RandomizePortals();
+	}
+
+	APortal* Portal = RandomizedPortals.Pop();
+	FVector SpawnLocation = Portal->GetSpawnPosition();
+	SpawnEnemy(SpawnLocation);
 }
 
 void AArenaRoguelikeGameMode::SpawnEnemy(FVector location)

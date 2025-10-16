@@ -34,9 +34,13 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	TArray<APortal*> RandomizedPortals;
 
+	FTimerHandle SpawnTimerHandle;
+
 	void InitializePortals();
 
 	void RandomizePortals();
+
+	void SpawnEnemyAtRandomPortal();
 
 	void SpawnEnemy(FVector location);
 
