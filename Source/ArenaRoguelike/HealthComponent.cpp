@@ -2,6 +2,8 @@
 
 
 #include "HealthComponent.h"
+#include "BasicEnemyPawn.h"
+#include "PlayerPawn.h"
 
 
 UHealthComponent::UHealthComponent()
@@ -28,7 +30,12 @@ void UHealthComponent::Damage(float DamageAmount)
 {
 	Health -= DamageAmount;
 	if (Health <= 0) {
-		GetOwner()->Destroy();
+		if (APlayerPawn* PlayerPawn = Cast<APlayerPawn>(GetOwner())) {
+			PlayerPawn->HandleDestruction();
+		}
+		if (ABasicEnemyPawn* EnemyPawn = Cast<ABasicEnemyPawn>(GetOwner())) {
+			EnemyPawn->HandleDestruction();
+		}
 	}
 }
 
