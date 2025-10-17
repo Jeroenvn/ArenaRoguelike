@@ -12,13 +12,12 @@ void AArenaRoguelikeGameMode::BeginPlay()
 
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	if (PlayerController) {
-		UE_LOG(LogTemp, Display, TEXT("Found PC!"));
 		LevelUpOptionScreenWidget = CreateWidget<ULevelUpOptionScreen>(PlayerController, LevelUpOptionScreenClass);
 		if (LevelUpOptionScreenWidget) {
-			UE_LOG(LogTemp, Display, TEXT("Made LevelUpOptionScreenWidget"));
 			LevelUpOptionScreenWidget->AddToPlayerScreen();
-			UE_LOG(LogTemp, Display, TEXT("Added to player screen"));
-			LevelUpOptionScreenWidget->SetOptionMessage(0, "Test Option");
+			LevelUpOptionScreenWidget->SetVisibility(ESlateVisibility::Hidden);
+			LevelUpOptionScreenWidget->InitializeDelegates();
+			LevelUpOptionScreenWidget->OnOptionPicked.AddUObject(this, &AArenaRoguelikeGameMode::OnLevelUpOptionPicked);
 		}
 	}
 
@@ -99,4 +98,14 @@ void AArenaRoguelikeGameMode::AddExperience(int ExperienceAmount)
 void AArenaRoguelikeGameMode::LevelUp()
 {
 	UE_LOG(LogTemp, Display, TEXT("Leveled Up!"));
+	LevelUpOptionScreenWidget->SetOptionMessage(0, "Damage");
+	LevelUpOptionScreenWidget->SetOptionMessage(1, "Range");
+	LevelUpOptionScreenWidget->SetOptionMessage(2, "Hit through");
+	LevelUpOptionScreenWidget->SetVisibility(ESlateVisibility::Visible);
+}
+
+void AArenaRoguelikeGameMode::OnLevelUpOptionPicked(int Index)
+{
+	LevelUpOptionScreenWidget->SetVisibility(ESlateVisibility::Hidden);
+
 }

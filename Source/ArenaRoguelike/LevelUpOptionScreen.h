@@ -8,6 +8,8 @@
 
 #include "LevelUpOptionScreen.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnOptionPicked, int);
+
 UCLASS()
 class ARENAROGUELIKE_API ULevelUpOptionScreen : public UUserWidget
 {
@@ -31,6 +33,19 @@ public:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UTextBlock* TextBlockOption2;
+
+	void InitializeDelegates();
+
+	UFUNCTION()
+	void OnButton0Pressed();
+
+	UFUNCTION()
+	void OnButton1Pressed();
+
+	UFUNCTION()
+	void OnButton2Pressed();
 	
 	void SetOptionMessage(int Index, FString Message);
+
+	FOnOptionPicked OnOptionPicked;
 };

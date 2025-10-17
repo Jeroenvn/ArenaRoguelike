@@ -3,6 +3,28 @@
 
 #include "LevelUpOptionScreen.h"
 
+void ULevelUpOptionScreen::InitializeDelegates()
+{
+	ButtonOption0->OnClicked.AddDynamic(this, &ULevelUpOptionScreen::OnButton0Pressed);
+	ButtonOption1->OnClicked.AddDynamic(this, &ULevelUpOptionScreen::OnButton1Pressed);
+	ButtonOption2->OnClicked.AddDynamic(this, &ULevelUpOptionScreen::OnButton2Pressed);
+}
+
+void ULevelUpOptionScreen::OnButton0Pressed()
+{
+	OnOptionPicked.Broadcast(0);
+}
+
+void ULevelUpOptionScreen::OnButton1Pressed()
+{
+	OnOptionPicked.Broadcast(1);
+}
+
+void ULevelUpOptionScreen::OnButton2Pressed()
+{
+	OnOptionPicked.Broadcast(2);
+}
+
 void ULevelUpOptionScreen::SetOptionMessage(int Index, FString Message)
 {
 	FText MessageText = FText::FromString(Message);

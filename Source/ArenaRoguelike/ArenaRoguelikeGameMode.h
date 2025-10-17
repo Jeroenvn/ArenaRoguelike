@@ -64,4 +64,6 @@ public:
 
 	void LevelUp();
 
+	void OnLevelUpOptionPicked(int Index);
+
 };
