@@ -28,5 +28,29 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ABasicEnemyPawn> BasicEnemyPawn;
 
+	TArray<APortal*> Portals;
+
+	TArray<APortal*> RandomizedPortals;
+
+	FTimerHandle SpawnTimerHandle;
+
+	UPROPERTY(EditAnywhere)
+	float TimeBetweenSpawns = 2.5f;
+
+	UPROPERTY(EditAnywhere)
+	float DifficultyIncreasePerMinute = 3.0f;
+
+	UPROPERTY(VisibleAnywhere)
+	float Difficulty = 1.0f;
+
+	void InitializePortals();
+
+	void RandomizePortals();
+
+	void SpawnEnemyAtRandomPortal();
+
 	void SpawnEnemy(FVector location);
+
+	void IncreaseDifficultyPerSecond();
+
 };

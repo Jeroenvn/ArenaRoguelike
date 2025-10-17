@@ -32,7 +32,7 @@ void ABasicEnemyPawn::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActo
 		return;
 	}
 
-	DamageCooldownTimer = DamageRate;
+	DamageCooldownTimer = DamageCooldownSeconds;
 
 	if (UHealthComponent* HealthComponent = OtherActor->GetComponentByClass<UHealthComponent>()) {
 		HealthComponent->Damage(Damage);
@@ -45,4 +45,12 @@ void ABasicEnemyPawn::HandleDestruction()
 	UE_LOG(LogTemp, Display, TEXT("Enemy Died"));
 	Destroy();
 
+}
+
+void ABasicEnemyPawn::InitializeMonster(APlayerPawn* InPlayerPawn, float InSpeed, int InMaxHealth, float InDamage)
+{
+	PlayerPawn = InPlayerPawn;
+	Speed = InSpeed;
+	GetComponentByClass<UHealthComponent>()->SetMaxHealth(InMaxHealth, true);
+	Damage = InDamage;
 }

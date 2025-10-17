@@ -39,3 +39,12 @@ void UHealthComponent::Damage(float DamageAmount)
 	}
 }
 
+void UHealthComponent::SetMaxHealth(float InMaxHealth, bool HealToFull)
+{
+	MaxHealth = InMaxHealth;
+	
+	if (HealToFull) {
+		Health = MaxHealth;
+	}
+}
+
