@@ -6,6 +6,7 @@
 #include "PlayerPawn.h"
 #include "BasicEnemyPawn.h"
 #include "Portal.h"
+#include "LevelUpOptionScreen.h"
 
 #include "ArenaRoguelikeGameMode.generated.h"
 
@@ -19,6 +20,11 @@ protected:
 	
 public:
 	APlayerPawn* PlayerPawn;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ULevelUpOptionScreen> LevelUpOptionScreenClass;
+
+	ULevelUpOptionScreen* LevelUpOptionScreenWidget;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ABasicEnemyPawn> BasicEnemyPawn;

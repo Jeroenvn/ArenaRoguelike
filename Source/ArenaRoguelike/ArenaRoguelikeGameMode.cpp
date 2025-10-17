@@ -10,6 +10,18 @@ void AArenaRoguelikeGameMode::BeginPlay()
 		PlayerPawn = Cast<APlayerPawn>(Player);
 	}
 
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if (PlayerController) {
+		UE_LOG(LogTemp, Display, TEXT("Found PC!"));
+		LevelUpOptionScreenWidget = CreateWidget<ULevelUpOptionScreen>(PlayerController, LevelUpOptionScreenClass);
+		if (LevelUpOptionScreenWidget) {
+			UE_LOG(LogTemp, Display, TEXT("Made LevelUpOptionScreenWidget"));
+			LevelUpOptionScreenWidget->AddToPlayerScreen();
+			UE_LOG(LogTemp, Display, TEXT("Added to player screen"));
+			LevelUpOptionScreenWidget->SetOptionMessage(0, "Test Option");
+		}
+	}
+
 	InitializePortals();
 
 	GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal, TimeBetweenSpawns, true);
