@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -7,9 +5,8 @@
 #include "PlayerPawn.h"
 #include "BasicEnemyPawn.generated.h"
 
-/**
- * 
- */
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnGiveExperience, int);
+
 UCLASS()
 class ARENAROGUELIKE_API ABasicEnemyPawn : public ABasePawn
 {
@@ -41,5 +38,7 @@ public:
 	void HandleDestruction();
 
 	void InitializeMonster(APlayerPawn* InPlayerPawn, float InSpeed, int InMaxHealth, float InDamage);
+
+	FOnGiveExperience OnGiveExperience;
 
 };

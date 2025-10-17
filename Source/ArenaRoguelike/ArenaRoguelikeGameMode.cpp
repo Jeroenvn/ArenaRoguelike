@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "ArenaRoguelikeGameMode.h"
 
 #include "Kismet/GameplayStatics.h"
@@ -21,6 +18,7 @@ void AArenaRoguelikeGameMode::BeginPlay()
 
 	GetWorldTimerManager().SetTimer(DifficultyTimerHandle, this, &AArenaRoguelikeGameMode::IncreaseDifficultyPerSecond, 1.0f, true);
 
+	ExperienceLeftBeforeLevelUp = ExperiencePerLevel;
 }
 
 void AArenaRoguelikeGameMode::InitializePortals()
@@ -68,9 +66,25 @@ void AArenaRoguelikeGameMode::SpawnEnemy(FVector location)
 	float MaxHealth = 100 * Difficulty;
 	float Damage = 25;
 	Enemy->InitializeMonster(PlayerPawn, Speed, MaxHealth, Damage);
+	Enemy->OnGiveExperience.AddUObject(this, &AArenaRoguelikeGameMode::AddExperience);
 }
 
 void AArenaRoguelikeGameMode::IncreaseDifficultyPerSecond()
 {
 	Difficulty += DifficultyIncreasePerMinute / 60;
+}
+
+void AArenaRoguelikeGameMode::AddExperience(int ExperienceAmount)
+{
+	UE_LOG(LogTemp, Display, TEXT("Gained %d experience!"), ExperienceAmount);
+	ExperienceLeftBeforeLevelUp -= ExperienceAmount;
+	if (ExperienceLeftBeforeLevelUp <= 0) {
+		LevelUp();
+		ExperienceLeftBeforeLevelUp += ExperiencePerLevel;
+	}
+}
+
+void AArenaRoguelikeGameMode::LevelUp()
+{
+	UE_LOG(LogTemp, Display, TEXT("Leveled Up!"));
 }

@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -11,9 +9,6 @@
 
 #include "ArenaRoguelikeGameMode.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class ARENAROGUELIKE_API AArenaRoguelikeGameMode : public AGameModeBase
 {
@@ -43,6 +38,12 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	float Difficulty = 1.0f;
 
+	UPROPERTY(EditAnywhere)
+	int ExperiencePerLevel = 30;
+
+	UPROPERTY(VisibleAnywhere)
+	int ExperienceLeftBeforeLevelUp;
+
 	void InitializePortals();
 
 	void RandomizePortals();
@@ -52,5 +53,9 @@ public:
 	void SpawnEnemy(FVector location);
 
 	void IncreaseDifficultyPerSecond();
+
+	void AddExperience(int ExperienceAmount);
+
+	void LevelUp();
 
 };
