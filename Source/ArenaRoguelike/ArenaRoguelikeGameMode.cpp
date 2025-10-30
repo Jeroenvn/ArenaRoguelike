@@ -29,7 +29,7 @@ void AArenaRoguelikeGameMode::BeginPlay()
 
 	InitializePortals();
 
-	GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal, TimeBetweenSpawns, true);
+	GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal, TimeBetweenSpawnLowerBoundary + (TimeBetweenSpawnBuffer * (1 / Difficulty)), true);
 
 	FTimerHandle DifficultyTimerHandle;
 
@@ -79,9 +79,9 @@ void AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal()
 void AArenaRoguelikeGameMode::SpawnEnemy(FVector location)
 {
 	ABasicEnemyPawn* Enemy = GetWorld()->SpawnActor<ABasicEnemyPawn>(BasicEnemyPawn, location, FRotator(0.0f, 0.0f, 0.0f));
-	float Speed = 100 * Difficulty;
-	float MaxHealth = 100 * Difficulty;
-	float Damage = 25;
+	float Speed = enemyBaseSpeed + enemySpeedGrowth * Difficulty;
+	float MaxHealth = enemyBaseHealth + enemyHealthGrowth * Difficulty;
+	float Damage = enemyBaseDamage;
 	Enemy->InitializeMonster(PlayerPawn, Speed, MaxHealth, Damage);
 	Enemy->OnGiveExperience.AddUObject(this, &AArenaRoguelikeGameMode::AddExperience);
 }
@@ -89,6 +89,11 @@ void AArenaRoguelikeGameMode::SpawnEnemy(FVector location)
 void AArenaRoguelikeGameMode::IncreaseDifficultyPerSecond()
 {
 	Difficulty += DifficultyIncreasePerMinute / 60;
+
+	if (Difficulty - LastSpawnSpeedupDifficulty > 1.0f) {
+		LastSpawnSpeedupDifficulty = Difficulty;
+		GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal, TimeBetweenSpawnLowerBoundary + (TimeBetweenSpawnBuffer * (1 / Difficulty)), true);
+	}
 }
 
 void AArenaRoguelikeGameMode::AddExperience(int ExperienceAmount)

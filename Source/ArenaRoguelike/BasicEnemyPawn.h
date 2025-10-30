@@ -20,16 +20,9 @@ public:
 
 	APlayerPawn* PlayerPawn;
 
-	UPROPERTY(EditAnywhere)
-	float Speed = 100;
-
-	UPROPERTY(EditAnywhere)
-	float Damage = 25;
-
-	UPROPERTY(EditAnywhere)
+	float Speed;
+	float Damage;
 	float DamageCooldownSeconds = 0.5f;
-
-	UPROPERTY(VisibleAnywhere)
 	float DamageCooldownTimer = 0;
 
 	UFUNCTION()

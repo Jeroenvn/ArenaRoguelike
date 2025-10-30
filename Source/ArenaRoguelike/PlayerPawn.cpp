@@ -153,10 +153,10 @@ void APlayerPawn::UpgradeSpeed()
 
 void APlayerPawn::UpgradeFireRate()
 {
-	FireRate = FireRate * 0.8f;
+	FireRate = FireRate * 0.9f;
 }
 
 void APlayerPawn::UpgradeRange()
 {
-	FireDistance += 20;
+	FireDistance += 25;
 }

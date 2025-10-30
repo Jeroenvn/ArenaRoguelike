@@ -38,19 +38,38 @@ public:
 
 	FTimerHandle SpawnTimerHandle;
 
-	UPROPERTY(EditAnywhere)
-	float TimeBetweenSpawns = 2.5f;
+	UPROPERTY(EditAnywhere, Category="Enemy")
+	float enemyBaseSpeed = 130;
 
-	UPROPERTY(EditAnywhere)
-	float DifficultyIncreasePerMinute = 3.0f;
+	UPROPERTY(EditAnywhere, Category = "Enemy")
+	float enemySpeedGrowth = 20;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Enemy")
+	float enemyBaseHealth = 40;
+
+	UPROPERTY(EditAnywhere, Category = "Enemy")
+	float enemyHealthGrowth = 50;
+
+	UPROPERTY(EditAnywhere, Category = "Enemy")
+	float enemyBaseDamage = 25;
+
+	UPROPERTY(EditAnywhere, Category = "Enemy")
+	float TimeBetweenSpawnBuffer = 1.5f;
+
+	float TimeBetweenSpawnLowerBoundary = 0.3f;
+
+	float LastSpawnSpeedupDifficulty = 1.0f;
+
+	float DifficultyIncreasePerMinute = 1.0f;
+
+
+	UPROPERTY(VisibleAnywhere, Category = "Difficulty")
 	float Difficulty = 1.0f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Leveling")
 	int ExperiencePerLevel = 30;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Leveling")
 	int ExperienceLeftBeforeLevelUp;
 
 	void InitializePortals();
