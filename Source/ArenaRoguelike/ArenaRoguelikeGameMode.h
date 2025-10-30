@@ -21,6 +21,8 @@ protected:
 public:
 	APlayerPawn* PlayerPawn;
 
+	APlayerController* PlayerController;
+
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ULevelUpOptionScreen> LevelUpOptionScreenClass;
 

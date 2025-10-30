@@ -10,8 +10,9 @@ void AArenaRoguelikeGameMode::BeginPlay()
 		PlayerPawn = Cast<APlayerPawn>(Player);
 	}
 
-	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	if (PlayerController) {
+	APlayerController* FoundPlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if (FoundPlayerController) {
+		PlayerController = FoundPlayerController;
 		LevelUpOptionScreenWidget = CreateWidget<ULevelUpOptionScreen>(PlayerController, LevelUpOptionScreenClass);
 		if (LevelUpOptionScreenWidget) {
 			LevelUpOptionScreenWidget->AddToPlayerScreen();
@@ -102,10 +103,15 @@ void AArenaRoguelikeGameMode::LevelUp()
 	LevelUpOptionScreenWidget->SetOptionMessage(1, "Range");
 	LevelUpOptionScreenWidget->SetOptionMessage(2, "Hit through");
 	LevelUpOptionScreenWidget->SetVisibility(ESlateVisibility::Visible);
+	PlayerController->bShowMouseCursor = true;
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 
 void AArenaRoguelikeGameMode::OnLevelUpOptionPicked(int Index)
 {
 	LevelUpOptionScreenWidget->SetVisibility(ESlateVisibility::Hidden);
+	PlayerController->bShowMouseCursor = false;
+	UGameplayStatics::SetGamePaused(GetWorld(), false);
+	UE_LOG(LogTemp, Display, TEXT("index picked: %d"), Index);
 
 }
