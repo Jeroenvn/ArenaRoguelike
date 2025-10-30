@@ -5,10 +5,11 @@
 
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
+#include "UpgradeType.h"
 
 #include "LevelUpOptionScreen.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnOptionPicked, int);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnOptionPicked, EUpgradeType);
 
 UCLASS()
 class ARENAROGUELIKE_API ULevelUpOptionScreen : public UUserWidget
@@ -44,8 +45,12 @@ public:
 
 	UFUNCTION()
 	void OnButton2Pressed();
+
+	EUpgradeType UpgradeOption0;
+	EUpgradeType UpgradeOption1;
+	EUpgradeType UpgradeOption2;
 	
-	void SetOptionMessage(int Index, FString Message);
+	void SetOptionMessage(int Index, FString Message, EUpgradeType upgrade);
 
 	FOnOptionPicked OnOptionPicked;
 };

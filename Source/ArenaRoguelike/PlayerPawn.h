@@ -82,4 +82,10 @@ public:
 
 	void HandleDestruction();
 
+	void UpgradeDamage();
+	void UpgradePiercing();
+	void UpgradeSpeed();
+	void UpgradeFireRate();
+	void UpgradeRange();
+
 };

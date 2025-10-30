@@ -135,3 +135,28 @@ void APlayerPawn::HandleDestruction()
 	UGameplayStatics::OpenLevel(GetWorld(), *CurrentLevelName);
 
 }
+
+void APlayerPawn::UpgradeDamage()
+{
+	Damage += 30;
+}
+
+void APlayerPawn::UpgradePiercing()
+{
+	Piercing += 1;
+}
+
+void APlayerPawn::UpgradeSpeed()
+{
+	Speed += 30;
+}
+
+void APlayerPawn::UpgradeFireRate()
+{
+	FireRate = FireRate * 0.8f;
+}
+
+void APlayerPawn::UpgradeRange()
+{
+	FireDistance += 20;
+}

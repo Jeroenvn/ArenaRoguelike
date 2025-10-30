@@ -99,19 +99,37 @@ void AArenaRoguelikeGameMode::AddExperience(int ExperienceAmount)
 void AArenaRoguelikeGameMode::LevelUp()
 {
 	UE_LOG(LogTemp, Display, TEXT("Leveled Up!"));
-	LevelUpOptionScreenWidget->SetOptionMessage(0, "Damage");
-	LevelUpOptionScreenWidget->SetOptionMessage(1, "Range");
-	LevelUpOptionScreenWidget->SetOptionMessage(2, "Hit through");
+	LevelUpOptionScreenWidget->SetOptionMessage(0, "Damage", EUpgradeType::DAMAGE);
+	LevelUpOptionScreenWidget->SetOptionMessage(1, "Range", EUpgradeType::RANGE);
+	LevelUpOptionScreenWidget->SetOptionMessage(2, "Hit through", EUpgradeType::PIERCE);
 	LevelUpOptionScreenWidget->SetVisibility(ESlateVisibility::Visible);
 	PlayerController->bShowMouseCursor = true;
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 
-void AArenaRoguelikeGameMode::OnLevelUpOptionPicked(int Index)
+void AArenaRoguelikeGameMode::OnLevelUpOptionPicked(EUpgradeType upgrade)
 {
 	LevelUpOptionScreenWidget->SetVisibility(ESlateVisibility::Hidden);
 	PlayerController->bShowMouseCursor = false;
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
-	UE_LOG(LogTemp, Display, TEXT("index picked: %d"), Index);
+	UE_LOG(LogTemp, Display, TEXT("index picked: %d"), upgrade);
+
+	switch (upgrade) {
+	case EUpgradeType::DAMAGE:
+		PlayerPawn->UpgradeDamage();
+		break;
+	case EUpgradeType::FIRERATE:
+		PlayerPawn->UpgradeFireRate();
+		break;
+	case EUpgradeType::RANGE:
+		PlayerPawn->UpgradeRange();
+		break;
+	case EUpgradeType::PIERCE:
+		PlayerPawn->UpgradePiercing();
+		break;
+	case EUpgradeType::SPEED:
+		PlayerPawn->UpgradeSpeed();
+		break;
+	}
 
 }

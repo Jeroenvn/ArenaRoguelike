@@ -7,6 +7,7 @@
 #include "BasicEnemyPawn.h"
 #include "Portal.h"
 #include "LevelUpOptionScreen.h"
+#include "UpgradeType.h"
 
 #include "ArenaRoguelikeGameMode.generated.h"
 
@@ -66,6 +67,6 @@ public:
 
 	void LevelUp();
 
-	void OnLevelUpOptionPicked(int Index);
+	void OnLevelUpOptionPicked(EUpgradeType upgrade);
 
 };
