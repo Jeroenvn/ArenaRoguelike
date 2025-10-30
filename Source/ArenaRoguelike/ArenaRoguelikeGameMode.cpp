@@ -1,5 +1,10 @@
 #include "ArenaRoguelikeGameMode.h"
 
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <random>
+
 #include "Kismet/GameplayStatics.h"
 
 void AArenaRoguelikeGameMode::BeginPlay()
@@ -98,10 +103,46 @@ void AArenaRoguelikeGameMode::AddExperience(int ExperienceAmount)
 
 void AArenaRoguelikeGameMode::LevelUp()
 {
-	UE_LOG(LogTemp, Display, TEXT("Leveled Up!"));
-	LevelUpOptionScreenWidget->SetOptionMessage(0, "Damage", EUpgradeType::DAMAGE);
-	LevelUpOptionScreenWidget->SetOptionMessage(1, "Range", EUpgradeType::RANGE);
-	LevelUpOptionScreenWidget->SetOptionMessage(2, "Hit through", EUpgradeType::PIERCE);
+	std::vector<EUpgradeType> allUpgradeTypes = {
+		EUpgradeType::DAMAGE,
+		EUpgradeType::FIRERATE,
+		EUpgradeType::RANGE,
+		EUpgradeType::PIERCE,
+		EUpgradeType::SPEED
+	};
+
+	std::random_device randomDevice;
+	std::mt19937 randomEngine(randomDevice());
+
+	std::shuffle(allUpgradeTypes.begin(), allUpgradeTypes.end(), randomEngine);
+
+	const int numUpgradesToSelect = 3;
+	std::vector<EUpgradeType> chosenUpgrades(allUpgradeTypes.begin(), allUpgradeTypes.begin() + numUpgradesToSelect);
+
+	int optionNumber = 0;
+
+	for (const auto& upgrade : chosenUpgrades) {
+		switch (upgrade) {
+			case EUpgradeType::DAMAGE:
+				LevelUpOptionScreenWidget->SetOptionMessage(optionNumber, "Damage", EUpgradeType::DAMAGE);
+				break;
+			case EUpgradeType::FIRERATE:
+				LevelUpOptionScreenWidget->SetOptionMessage(optionNumber, "Fire rate", EUpgradeType::FIRERATE);
+				break;
+			case EUpgradeType::RANGE:
+				LevelUpOptionScreenWidget->SetOptionMessage(optionNumber, "Range", EUpgradeType::RANGE);
+				break;
+			case EUpgradeType::PIERCE:
+				LevelUpOptionScreenWidget->SetOptionMessage(optionNumber, "Pierce", EUpgradeType::PIERCE);
+				break;
+			case EUpgradeType::SPEED:
+				LevelUpOptionScreenWidget->SetOptionMessage(optionNumber, "Speed", EUpgradeType::SPEED);
+				break;
+		}
+
+		optionNumber++;
+	}
+
 	LevelUpOptionScreenWidget->SetVisibility(ESlateVisibility::Visible);
 	PlayerController->bShowMouseCursor = true;
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
