@@ -9,6 +9,8 @@
 #include "Camera/CameraComponent.h"
 #include "InputMappingContext.h"
 #include "EnhancedInputSubsystems.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 #include "InputAction.h"
 #include "InputActionValue.h"
@@ -75,6 +77,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	float FireCooldownTimer = 0;
+
+	UPROPERTY(EditAnywhere)
+	class UNiagaraSystem* beamFx;
 
 	void MoveInput(const FInputActionValue& Value);
 

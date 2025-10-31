@@ -102,6 +102,9 @@ void APlayerPawn::FireInput(const FInputActionValue& Value)
 
 	DrawDebugBox(GetWorld(), Start + StartToEnd / 2, FVector(FireDistance / 2, InteractionSphereRadius, InteractionSphereRadius), FQuat(StartToEnd.Rotation()), FColor::Blue, false, 1.0f);
 
+	UNiagaraComponent* Beam = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), beamFx, Start, FireStartComponent->GetComponentRotation());
+	Beam->SetVariableVec3(FName("User.CustomBeamEnd"), FVector(FireDistance, 0, 0));
+
 	TArray<FOverlapResult> OverlapResult;
 	bool HasOverlapped = GetWorld()->OverlapMultiByChannel(OverlapResult, HalfwayPoint, LineRotation, ECC_GameTraceChannel2, InteractionBox);
 
