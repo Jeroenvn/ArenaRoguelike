@@ -36,6 +36,8 @@ void AArenaRoguelikeGameMode::BeginPlay()
 	GetWorldTimerManager().SetTimer(DifficultyTimerHandle, this, &AArenaRoguelikeGameMode::IncreaseDifficultyPerSecond, 1.0f, true);
 
 	ExperienceLeftBeforeLevelUp = ExperiencePerLevel;
+
+	PlayerController->bShowMouseCursor = true;
 }
 
 void AArenaRoguelikeGameMode::InitializePortals()
@@ -150,14 +152,12 @@ void AArenaRoguelikeGameMode::LevelUp()
 	}
 
 	LevelUpOptionScreenWidget->SetVisibility(ESlateVisibility::Visible);
-	PlayerController->bShowMouseCursor = true;
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 
 void AArenaRoguelikeGameMode::OnLevelUpOptionPicked(EUpgradeType upgrade)
 {
 	LevelUpOptionScreenWidget->SetVisibility(ESlateVisibility::Hidden);
-	PlayerController->bShowMouseCursor = false;
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
 	UE_LOG(LogTemp, Display, TEXT("index picked: %d"), upgrade);
 
