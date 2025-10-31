@@ -73,12 +73,13 @@ void AArenaRoguelikeGameMode::SpawnEnemyAtRandomPortal()
 
 	APortal* Portal = RandomizedPortals.Pop();
 	FVector SpawnLocation = Portal->GetSpawnPosition();
-	SpawnEnemy(SpawnLocation);
+	FRotator SpawnRotation = Portal->GetSpawnRotation();
+	SpawnEnemy(SpawnLocation, SpawnRotation);
 }
 
-void AArenaRoguelikeGameMode::SpawnEnemy(FVector location)
+void AArenaRoguelikeGameMode::SpawnEnemy(FVector location, FRotator rotation)
 {
-	ABasicEnemyPawn* Enemy = GetWorld()->SpawnActor<ABasicEnemyPawn>(BasicEnemyPawn, location, FRotator(0.0f, 0.0f, 0.0f));
+	ABasicEnemyPawn* Enemy = GetWorld()->SpawnActor<ABasicEnemyPawn>(BasicEnemyPawn, location, rotation);
 	float Speed = enemyBaseSpeed + enemySpeedGrowth * Difficulty;
 	float MaxHealth = enemyBaseHealth + enemyHealthGrowth * Difficulty;
 	float Damage = enemyBaseDamage;

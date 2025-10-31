@@ -78,7 +78,7 @@ public:
 
 	void SpawnEnemyAtRandomPortal();
 
-	void SpawnEnemy(FVector location);
+	void SpawnEnemy(FVector location, FRotator rotation);
 
 	void IncreaseDifficultyPerSecond();
 
