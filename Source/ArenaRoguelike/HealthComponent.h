@@ -31,5 +31,7 @@ public:
 	float Health;
 
 	void Damage(float DamageAmount);
+
+	void SetMaxHealth(float MaxHealth, bool HealToFull);
 		
 };

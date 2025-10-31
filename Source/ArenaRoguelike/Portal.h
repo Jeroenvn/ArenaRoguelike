@@ -33,4 +33,6 @@ public:
 	USceneComponent* SpawnComponent;
 
 	FVector GetSpawnPosition();
+
+	FRotator GetSpawnRotation();
 };
