@@ -36,3 +36,8 @@ FVector APortal::GetSpawnPosition()
 
 }
 
+FRotator APortal::GetSpawnRotation()
+{
+	return FRotator(SpawnComponent->GetComponentRotation());
+}
+

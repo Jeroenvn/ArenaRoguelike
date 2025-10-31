@@ -46,7 +46,7 @@ void APlayerPawn::Tick(float DeltaTime)
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller)) {
 		FHitResult HitResult;
 		PlayerController->GetHitResultUnderCursor(ECC_GameTraceChannel1, false, HitResult);
-		DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 20.0f, 12, FColor::Red);
+		//DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 20.0f, 12, FColor::Red);
 		LookAt(HitResult.ImpactPoint);
 	}
 
@@ -100,7 +100,10 @@ void APlayerPawn::FireInput(const FInputActionValue& Value)
 	FQuat LineRotation = FireStartComponent->GetComponentQuat();
 	FCollisionShape InteractionBox = FCollisionShape::MakeBox(FVector(FireDistance / 2, 25.0f, 25.0f));
 
-	DrawDebugBox(GetWorld(), Start + StartToEnd / 2, FVector(FireDistance / 2, InteractionSphereRadius, InteractionSphereRadius), FQuat(StartToEnd.Rotation()), FColor::Blue, false, 1.0f);
+	//DrawDebugBox(GetWorld(), Start + StartToEnd / 2, FVector(FireDistance / 2, InteractionSphereRadius, InteractionSphereRadius), FQuat(StartToEnd.Rotation()), FColor::Blue, false, 1.0f);
+
+	UNiagaraComponent* Beam = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), beamFx, Start, FireStartComponent->GetComponentRotation());
+	Beam->SetVariableVec3(FName("User.CustomBeamEnd"), FVector(FireDistance, 0, 0));
 
 	TArray<FOverlapResult> OverlapResult;
 	bool HasOverlapped = GetWorld()->OverlapMultiByChannel(OverlapResult, HalfwayPoint, LineRotation, ECC_GameTraceChannel2, InteractionBox);
@@ -134,4 +137,29 @@ void APlayerPawn::HandleDestruction()
 	FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(GetWorld());
 	UGameplayStatics::OpenLevel(GetWorld(), *CurrentLevelName);
 
+}
+
+void APlayerPawn::UpgradeDamage()
+{
+	Damage += 30;
+}
+
+void APlayerPawn::UpgradePiercing()
+{
+	Piercing += 1;
+}
+
+void APlayerPawn::UpgradeSpeed()
+{
+	Speed += 30;
+}
+
+void APlayerPawn::UpgradeFireRate()
+{
+	FireRate = FireRate * 0.9f;
+}
+
+void APlayerPawn::UpgradeRange()
+{
+	FireDistance += 25;
 }

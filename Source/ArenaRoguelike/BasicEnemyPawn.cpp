@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "BasicEnemyPawn.h"
 #include "HealthComponent.h"
 
@@ -42,6 +39,7 @@ void ABasicEnemyPawn::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActo
 
 void ABasicEnemyPawn::HandleDestruction()
 {
+	OnGiveExperience.Broadcast(10);
 	UE_LOG(LogTemp, Display, TEXT("Enemy Died"));
 	Destroy();
 
